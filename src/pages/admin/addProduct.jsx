@@ -33,7 +33,6 @@ const useStyles = makeStyles({
 const AddProduct = props => {
     const classes = useStyles();
     const [product, setProduct] = useState({
-        parentCategoryId: '',
         categoryId: '',
         images: '',
         name: '',

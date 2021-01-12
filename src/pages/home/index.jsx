@@ -4,6 +4,7 @@ import Header from '../header/index';
 import Footer from '../footer/index';
 import bannersService from '../../services/bannersService';
 import productsService from '../../services/productsService';
+import _ from 'lodash';
 
 const HomePage = props => {
     const [banners, setBanners] = useState([]);
@@ -52,7 +53,7 @@ const HomePage = props => {
                     </Typography>
                     </div>
                     <Typography variant="body1">
-                        {product.name}
+                        {_.truncate(product.name, { length: 20 })}
                     </Typography>
                     <img src={product.images.split('\n')[0]} alt={product.name} width="240" />
                 </Paper>
