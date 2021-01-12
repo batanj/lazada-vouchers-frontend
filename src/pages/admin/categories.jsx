@@ -22,6 +22,24 @@ const Categories = props => {
         getCategories();
     }, []);
 
+    const convertArrayToObject = (array, key) => {
+        const initialValue = {};
+        return array.reduce((obj, item) => {
+            return {
+                ...obj,
+                [item[key]]: item,
+            };
+        }, initialValue);
+    };
+
+    const setParentCategory = category => {
+        const tmp = convertArrayToObject(categories, '_id');
+        for (let tmpCategory = category; tmpCategory._id !== null; tmpCategory = tmp[tmpCategory._id]) {
+            if (!tmpCategory.parentId)
+                props.setProduct({ ...props.product, parentCategoryId: tmpCategory._id });
+        }
+    };
+
     const handleChange = e => {
         const currentIndex = e.target.value;
 
@@ -33,7 +51,9 @@ const Categories = props => {
         }
 
         if (currentIndex >= 0) {
-            props.setProduct({ ...props.product, categoryId: categories[currentIndex]._id });
+            const selectedCategory = categories[currentIndex]._id;
+            props.setProduct({ ...props.product, categoryId: selectedCategory });
+            setParentCategory(selectedCategory);
         } else {
             delete props.product.categoryId
             props.setProduct({ ...props.product });
